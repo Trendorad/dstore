@@ -1,132 +1,189 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة الأدمن</title>
-
-<style>
-body{
-    font-family: Arial;
-    background:#111;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم DStore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Cairo',sans-serif;
+    }body{
+  background:#0f172a;
+  color:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
 }
 
-.box{
-    background:#1e1e1e;
-    padding:30px;
-    border-radius:15px;
-    width:300px;
-    text-align:center;
-    box-shadow:0 0 20px #000;
+.background{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:linear-gradient(-45deg,#0f172a,#1e293b,#0ea5e9,#0f172a);
+  background-size:400% 400%;
+  animation:bg 12s ease infinite;
+  z-index:-1;
+}
+
+@keyframes bg{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.login-box,
+.admin-panel{
+  width:90%;
+  max-width:450px;
+  background:rgba(15,23,42,0.92);
+  padding:35px;
+  border-radius:25px;
+  box-shadow:0 0 40px rgba(0,0,0,0.5);
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(10px);
+  animation:show 0.5s ease;
+}
+
+@keyframes show{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+h1{
+  text-align:center;
+  margin-bottom:25px;
+  color:#38bdf8;
+  font-size:32px;
 }
 
 input{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
+  width:100%;
+  padding:14px;
+  margin-bottom:18px;
+  border:none;
+  border-radius:14px;
+  background:#1e293b;
+  color:white;
+  font-size:16px;
+  outline:none;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    background:#00b894;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(45deg,#38bdf8,#0ea5e9);
+  color:black;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
 }
 
 button:hover{
-    background:#019870;
+  transform:scale(1.03);
 }
 
-#panel{
-    display:none;
+.error{
+  color:#ef4444;
+  text-align:center;
+  margin-top:12px;
+  display:none;
+}
+
+.admin-panel{
+  display:none;
+  max-width:700px;
 }
 
 .card{
-    background:#2c2c2c;
-    padding:15px;
-    border-radius:10px;
-    margin-top:15px;
+  background:#1e293b;
+  padding:20px;
+  border-radius:18px;
+  margin-bottom:20px;
 }
-</style>
 
+.card h3{
+  margin-bottom:10px;
+  color:#38bdf8;
+}
+
+.status{
+  color:#22c55e;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.logout-btn{
+  margin-top:10px;
+  background:#ef4444;
+  color:white;
+}
+
+.top-title{
+  text-align:center;
+  margin-bottom:25px;
+  font-size:24px;
+  font-weight:bold;
+}
+
+  </style>
 </head>
-<body>
+<body><div class="background"></div><div class="login-box" id="loginBox">
+  <h1>لوحة تحكم DStore</h1>  <input type="password" id="password" placeholder="أدخل كلمة المرور"><button onclick="login()">دخول الأدمن</button>
 
-<div class="box">
+  <div class="error" id="error">
+    كلمة المرور غير صحيحة
+  </div>
+</div><div class="admin-panel" id="adminPanel">  <div class="top-title">
+    مرحباً بك داخل لوحة الإدارة
+  </div>  <div class="card">
+    <h3>إجمالي الطلبات</h3>
+    <p>12 طلب جديد</p>
+  </div>  <div class="card">
+    <h3>وسيلة الدفع</h3>
+    <p>اتصالات كاش</p>
+    <p>01130360090</p>
+  </div>  <div class="card">
+    <h3>حالة المتجر</h3>
+    <p class="status">المتجر يعمل بشكل ممتاز</p>
+  </div>  <div class="card">
+    <h3>إضافة منتج جديد</h3><input type="text" placeholder="اسم المنتج">
+<input type="text" placeholder="سعر المنتج">
+<input type="text" placeholder="رابط صورة المنتج">
 
-<div id="login">
+<button>إضافة المنتج</button>
 
-<h2>تسجيل دخول الأدمن</h2>
+  </div>  <button class="logout-btn" onclick="logout()">
+    تسجيل الخروج
+  </button></div><script>
+  const ADMIN_PASSWORD = 'dstore2011';
 
-<input type="password" id="password" placeholder="ادخل كلمة المرور">
+  function login(){
+    const password = document.getElementById('password').value;
 
-<button onclick="login()">دخول</button>
-
-<p id="msg"></p>
-
-</div>
-
-<div id="panel">
-
-<h2>مرحباً بك في لوحة الأدمن</h2>
-
-<div class="card">
-<p>اسم المتجر: Trendorad</p>
-</div>
-
-<div class="card">
-<p>الحالة: يعمل بنجاح ✅</p>
-</div>
-
-<button onclick="logout()">تسجيل خروج</button>
-
-</div>
-
-</div>
-
-<script>
-
-const adminPassword = "diaa2011";
-
-function login(){
-
-    const pass = document.getElementById("password").value;
-
-    if(pass === adminPassword){
-
-        document.getElementById("login").style.display = "none";
-        document.getElementById("panel").style.display = "block";
-
-    }else{
-
-        document.getElementById("msg").innerHTML = "كلمة المرور غير صحيحة";
-
+    if(password === ADMIN_PASSWORD){
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+    } else {
+      document.getElementById('error').style.display = 'block';
     }
+  }
 
-}
-
-function logout(){
-
-    document.getElementById("panel").style.display = "none";
-    document.getElementById("login").style.display = "block";
-
-}
-
-</script>
-
-</body>
-</html>
+  function logout(){
+    location.reload();
+  }
+</script></body>
+    </html>
